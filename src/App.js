@@ -1,10 +1,9 @@
-import logo from './logo.svg';
-import './App.css';
-import C01componente from './components/C01componente';
-import Variable from './components/C04variable';
+//import logo from './logo.svg';
+//import './App.css';
 import AppForm from './components/AppForm';
 
 function App() {
+
   return (
     <div style={{background:"yellow", width:"350px", 
      padding:"10px"}}>
