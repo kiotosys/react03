@@ -3,7 +3,7 @@ import { db } from '../firebase/firebase'
 import { useState } from 'react'
 import { addDoc, collection } from 'firebase/firestore'
 
-const AppForm = () => {
+const AppForm = (props) => {
   ///////////////////// GUARDAR / ACTUALIZAR /////////////////
   const camposRegistro = { nombre:"", edad:"", genero:"" }
   const [objeto, setObjeto] = useState(camposRegistro);
@@ -12,15 +12,37 @@ const AppForm = () => {
     e.preventDefault();
 
     try {
-      if(db) {
-        addDoc(collection(db, 'persona'), objeto);  
-        console.log("Guardando en BD");
+      if(props.idActual === "") {
+        if(validarForm()){
+          addDoc(collection(db, 'persona'), objeto);  
+          console.log("Se guardo con éxito...");
+        }
       }else{
         console.log("Actualizando en BD");
       }
+      setObjeto(camposRegistro);
     } catch (error) {
       console.error();
     }
+  }
+
+  const validarForm = () => {
+    if(objeto.nombre === "" || /^\s+/.test(objeto.nombre)){
+      alert("Escriba nombre...");
+      return false;
+    }
+
+    if(objeto.edad === "" || /^\s+/.test(objeto.edad)){
+      alert("Escriba edad...");
+      return false;
+    }
+
+    if(objeto.genero === "" || /^\s+/.test(objeto.genero)){
+      alert("Seleccionar genero...");
+      return false;
+    }
+    //
+    return true;
   }
 
   const manejarCambiosEntrada = (e) => {
@@ -43,7 +65,9 @@ const AppForm = () => {
         <input onChange={manejarCambiosEntrada} value={objeto.genero} 
           name='genero' type='text' placeholder='Género...' /><br/>
 
-        <button>Guardar</button>
+        <button>
+          { props.idActual===""? "Guardar": "Actualizar" }
+        </button>
       </form>
     </div>
   )
