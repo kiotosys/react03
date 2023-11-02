@@ -1,12 +1,13 @@
 //import logo from './logo.svg';
 //import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AppForm from './components/AppForm';
-import { collection, doc, onSnapshot, query } from 'firebase/firestore';
+import { collection, deleteDoc, doc, onSnapshot, query } from 'firebase/firestore';
 import { db } from './firebase/firebase';
 
 function App() {
   ///////// READ - Lectura - fnRead ////////////
+  const [idActual, setIdActual] = useState("");
   const [docBD, setDocBD] = useState([]);
   const fnRead = () => {
     const xColecionConQuery = query(collection(db, "persona"));
@@ -20,21 +21,35 @@ function App() {
     });
   }
   fnRead();
-  console.log(docBD);
+  //useEffect(()=>{fnRead(); }, [idActual]);
+  //console.log(docBD);
+
   ///////// DELETE - Eliminar - fnDelete ///////
-  const [idActual, setIdActual] = useState("");
-  const fnDelete = (xId) => {
+  
+  const fnDelete = async (xId) => {
+    if(window.confirm("Confirme para eliminar")){
+      await deleteDoc(doc(db, "persona", xId));
+      alert("Se elimino con éxito...");
+    }
   }
   
   return (
     <div style={{background:"yellow", width:"350px", 
      padding:"10px"}}>
-      <AppForm {...{idActual}} />
-      <i class="large material-icons">insert_chart</i>
+      <AppForm {...{idActual, setIdActual}} />
+      {
+        docBD.map((r, index) => 
+          <p key={r.id}>
+            {index+1}. {r.nombre} 
+            ------- 
+            <span onClick={()=>fnDelete(r.id)}>x</span>
+            -------
+            <span onClick={()=>setIdActual(r.id)}>A</span> <br/>
 
-      <p>1. Juan Manuel 23 Masculino ---- x -  A</p>
-      <p>2. Rosa Maria  25 Femenino  ---- x -  A</p>
-      <p>3. Luis Miguel 40 Masculino ---- x -  A</p>
+            23 Masculino 
+          </p>
+        )
+      }
     </div>
   );
 }
