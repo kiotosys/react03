@@ -19,12 +19,24 @@ import Fotos from '../protegido/sistemafile/Fotos';
 //////////////////////// PAG. PUBLICOS /////////////////
 
 
+
+
 const ProtectedRutas = () => {
   const { user } = useAuth();
     const auth = getAuth();
     const navigate = useNavigate();
 
-    const handleSignOut = () => {
+   const handleSignOut = () => {
+      if (user) {
+        signOut(auth)
+          .then(() => {
+            // Cierre de sesión exitoso
+            navigate('/home'); // Redirigir a ruta /home
+          })
+          .catch((error) => {
+            console.error('Error al cerrar sesión:', error);
+          });
+      }
     }
 
   return (

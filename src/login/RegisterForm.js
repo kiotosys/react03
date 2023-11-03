@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 // Para verificar que no registre con el mismo correo
 import { getDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../conexion/firebase';
-
+   
 function RegisterForm() {
 
   const { register } = useAuth();         // Registra usuario
@@ -19,7 +19,7 @@ function RegisterForm() {
 
   return (
     <div  id='public'>
-      <h2>Registro de Nuevo Usuario</h2>
+      <h2>Registro de Nuevo Usuario ok</h2>
       <form onSubmit={handleRegister}>
         <div>
           <label>Email:</label>
