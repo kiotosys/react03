@@ -34,7 +34,7 @@ function LoginForm() {
 
   return (
     <div id='public'>
-      <h2>Iniciar Sesión ok</h2>
+      <h2>Iniciar Sesión</h2>
       <form onSubmit={handleSignIn}>
         <div>
           <label>Email:</label>
